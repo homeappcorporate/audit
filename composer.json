@@ -11,7 +11,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Homeapp\\Audit\\": "src"
+            "Homeapp\\AuditBundle\\": "src"
         }
     },
     "minimum-stability": "dev",

@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Homeapp\Audit;
+namespace Homeapp\AuditBundle;
 
 /** @psalm-suppress UnusedClass */
-final class Audit
+final class HomeappAuditBundle
 {
     public function save(): string
     {

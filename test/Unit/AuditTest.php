@@ -4,20 +4,20 @@ declare(strict_types=1);
 
 namespace Test\Unit;
 
-use Homeapp\Audit\Audit;
+use Homeapp\AuditBundle\HomeappAuditBundle;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @covers Audit
+ * @covers HomeappAuditBundle
  */
 final class AuditTest extends TestCase
 {
-    private Audit $audit;
+    private HomeappAuditBundle $audit;
 
     protected function setUp() : void
     {
         parent::setUp();
-        $this->audit = new Audit();
+        $this->audit = new HomeappAuditBundle();
     }
 
     public function testVerifyClassIsWorkingAsExpected(): void
