@@ -1,0 +1,30 @@
+{
+    "name": "homeapp/audit",
+    "description": "Audit package for saving user activity",
+    "type": "project",
+    "require-dev": {
+        "vimeo/psalm": "^4.7",
+        "friendsofphp/php-cs-fixer": "^3.0",
+        "phpunit/phpunit": "^9.5",
+        "roave/security-advisories": "dev-latest",
+        "roave/backward-compatibility-check": "dev-master"
+    },
+    "autoload": {
+        "psr-4": {
+            "Homeapp\\Audit\\": "src"
+        }
+    },
+    "minimum-stability": "dev",
+    "autoload-dev": {
+        "psr-4": {
+            "Test\\": "test"
+        }
+    },
+    "license": "proprietary",
+    "authors": [
+        {
+            "name": "Legion112",
+            "email": "ageev.maks2014@gmail.com"
+        }
+    ]
+}
