@@ -73,6 +73,9 @@
       <scope name="Tests" level="WEAK WARNING" enabled="true" />
     </inspection_tool>
     <inspection_tool class="MissingService" enabled="true" level="WEAK WARNING" enabled_by_default="true" />
+    <inspection_tool class="PhpCSFixerValidationInspection" enabled="true" level="WEAK WARNING" enabled_by_default="true">
+      <option name="ALLOW_RISKY_RULES" value="true" />
+    </inspection_tool>
     <inspection_tool class="PhpDocMissingReturnTagInspection" enabled="true" level="WEAK WARNING" enabled_by_default="true">
       <option name="SKIP_ON_PRESENT_TYPE_HINT" value="true" />
     </inspection_tool>
