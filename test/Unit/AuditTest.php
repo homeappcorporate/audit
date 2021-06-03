@@ -14,7 +14,7 @@ final class AuditTest extends TestCase
 {
     private HomeappAuditBundle $audit;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->audit = new HomeappAuditBundle();
