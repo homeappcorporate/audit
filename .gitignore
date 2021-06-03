@@ -1,5 +1,6 @@
 # Project specific .gitignore
 vendor
+composer.lock
 .phpunit.result.cache
 .phpunit.cache
 

@@ -6,7 +6,8 @@
         "vimeo/psalm": "^4.7",
         "friendsofphp/php-cs-fixer": "^3.0",
         "phpunit/phpunit": "^9.5",
-        "roave/security-advisories": "dev-latest"
+        "roave/security-advisories": "dev-latest",
+        "fakerphp/faker": "1.15.x-dev"
     },
     "autoload": {
         "psr-4": {
@@ -17,7 +18,10 @@
     "autoload-dev": {
         "psr-4": {
             "Test\\": "test"
-        }
+        },
+        "files": [
+            "test/faker.php"
+        ]
     },
     "license": "proprietary",
     "authors": [
@@ -27,6 +31,8 @@
         }
     ],
     "require": {
-        "symfony/http-kernel": "5.4.x-dev"
+        "symfony/http-kernel": "5.4.x-dev",
+        "doctrine/orm": "^2",
+        "ramsey/uuid": "4.x-dev"
     }
 }
