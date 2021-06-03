@@ -25,5 +25,8 @@
             "name": "Legion112",
             "email": "ageev.maks2014@gmail.com"
         }
-    ]
+    ],
+    "require": {
+        "symfony/http-kernel": "5.4.x-dev"
+    }
 }
