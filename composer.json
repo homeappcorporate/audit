@@ -3,6 +3,7 @@
     "description": "Audit package for saving user activity",
     "type": "project",
     "require-dev": {
+        "php": "^7.4|^8.0",
         "vimeo/psalm": "^4.7",
         "friendsofphp/php-cs-fixer": "^3.0",
         "phpunit/phpunit": "^9.5",
