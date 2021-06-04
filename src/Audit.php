@@ -15,14 +15,14 @@ class Audit
         $this->storage = $storage;
     }
 
-    public function save(ActivityData $activity):void
+    public function hold(ActivityData $activity):void
     {
         $this->data[] = $activity;
     }
 
     public function sendDataToPersistenceStorage():void
     {
-        $this->storage->send($this->data);
+        $this->storage->send(...$this->data);
         $this->data = [];
     }
 }

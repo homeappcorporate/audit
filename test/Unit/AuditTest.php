@@ -4,20 +4,20 @@ declare(strict_types=1);
 
 namespace Test\Unit;
 
-use Faker\Factory;
-use Faker\Generator;
 use Homeapp\AuditBundle\ActivityData;
 use Homeapp\AuditBundle\Audit;
 use Homeapp\AuditBundle\StorageInterface;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use php_user_filter;
 
 /**
  * @covers Audit
+ * @psalm-suppress UnusedClass
  */
 final class AuditTest extends TestCase
 {
     private Audit $audit;
+    /** @var StorageInterface&MockObject  */
     private StorageInterface $storage;
 
     protected function setUp(): void
@@ -32,16 +32,13 @@ final class AuditTest extends TestCase
         $faker = faker();
         return [
             [
-                [
-                    new ActivityData(
-                        $faker->entityName,
-                        $faker->uuid,
-                        $faker->randomNumber(),
-                        $faker->dateTimeImmutable,
-                        $faker->ipv4,
-                        $faker->changeSet
-                    )
-                ]
+                new ActivityData(
+                    $faker->entityName(),
+                    $faker->uuid(),
+                    $faker->randomNumber(),
+                    $faker->ipv4(),
+                    $faker->changeSet()
+                )
             ]
         ];
     }
@@ -49,10 +46,16 @@ final class AuditTest extends TestCase
     /**
      * @dataProvider getActivity
      */
-    public function testSaveActivity(array $data): void
+    public function testSaveActivity(ActivityData ...$data): void
     {
+        $this->storage->expects(self::once())->method('send')->with(...$data);
         foreach ($data as $d) {
-            $this->audit->save($d);
+            $this->audit->hold($d);
         }
+        $this->audit->sendDataToPersistenceStorage();
+        self::assertEmpty((function (){
+            /** @var Audit $this */
+            return $this->data;
+        })->call($this->audit));
     }
 }

@@ -8,20 +8,23 @@
         "friendsofphp/php-cs-fixer": "^3.0",
         "phpunit/phpunit": "^9.5",
         "roave/security-advisories": "dev-latest",
-        "fakerphp/faker": "1.15.x-dev"
+        "fakerphp/faker": "1.15.x-dev",
+        "symfony/yaml": "^5.3"
     },
     "autoload": {
         "psr-4": {
             "Homeapp\\AuditBundle\\": "src"
         }
     },
-    "minimum-stability": "dev",
+    "minimum-stability": "stable",
     "autoload-dev": {
         "psr-4": {
-            "Test\\": "test"
+            "Test\\Unit\\": "test\\Unit",
+            "Test\\Infra\\": "test\\Infra",
+            "Test\\Functional\\": "test\\Functional"
         },
         "files": [
-            "test/faker.php"
+            "test/function/faker.php"
         ]
     },
     "license": "proprietary",
@@ -34,6 +37,8 @@
     "require": {
         "symfony/http-kernel": "5.4.x-dev",
         "doctrine/orm": "^2",
-        "ramsey/uuid": "4.x-dev"
+        "ramsey/uuid": "4.x-dev",
+        "symfony/dependency-injection": "^5.3",
+        "doctrine/migrations": "^2.0"
     }
 }

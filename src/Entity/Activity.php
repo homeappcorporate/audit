@@ -33,28 +33,30 @@ class Activity
 
     /**
      * @ORM\Id()
-     * @ORM\Column(type="guid"))
+     * @ORM\Column(type="guid")
      */
     private string $id;
 
     /**
      * Hope there will be no really long entity name
-     * @ORM\Column(type="string", length=150))
+     * @ORM\Column(type="string", length=150)
      */
     private string $entityName;
 
     /**
-     * @ORM\Column(type="string", length=36))
+     * @ORM\Column(type="string", length=36)
      * Entity might have uuid as ID that is the reason to have here string with this length
      */
     private string $entityId;
 
     /**
-     * @ORM\Column(type="integer", nullable=true))
+     * @ORM\Column(type="integer", nullable=true)
      */
     private ?int $actorId;
 
-    /** @ORM\Column(type="datetime_immutable)) */
+    /**
+     * @ORM\Column(type="datetime_immutable")
+     */
     private \DateTimeImmutable $createdAt;
 
     /**
@@ -64,7 +66,7 @@ class Activity
     private string $ip;
 
     /**
-     * @ORM\Column(type="json"))
+     * @ORM\Column(type="json")
      */
     private array $changeSet;
 

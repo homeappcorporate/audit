@@ -14,20 +14,23 @@ class ActivityData
     private ?int $actorId;
     private \DateTimeImmutable $createdAt;
     private string $ip;
+    /** @var string[]  */
     private array $changeSet;
 
+    /**
+     * @param string[] $changeSet
+     */
     public function __construct(
         string $entityName,
         string $entityId,
         ?int $actorId,
-        \DateTimeImmutable $createdAt,
         string $ip,
         array $changeSet
     ) {
         $this->entityName = $entityName;
         $this->entityId = $entityId;
         $this->actorId = $actorId;
-        $this->createdAt = $createdAt;
+        $this->createdAt = new \DateTimeImmutable();
         $this->ip = $ip;
         $this->changeSet = $changeSet;
     }

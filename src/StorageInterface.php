@@ -10,7 +10,6 @@ interface StorageInterface
 {
     /**
      * Send data to persistence storage
-     * @param ActivityData[]
      */
-    public function send(array $data):void;
+    public function send(ActivityData ...$data):void;
 }
