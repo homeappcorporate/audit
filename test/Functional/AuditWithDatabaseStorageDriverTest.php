@@ -120,7 +120,6 @@ final class AuditWithDatabaseStorageDriverTest extends TestCase
              'entityName' => User::class,
              'actionType' => ActionTypeEnum::UPDATE,
          ]);
-//        dd($user, $oldLogin, $newLogin);
         self::assertSame(
             [
                 'login' => [

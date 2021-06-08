@@ -37,7 +37,7 @@ class Doctrine
             <<< MIGRATION
 CREATE TABLE "user" (
     id STRING NOT NULL,
-    login STRING NOT NULL
+    login VARCHAR NOT NULL
 );
 CREATE TABLE "activity" (
     id INTEGER NOT NULL, 

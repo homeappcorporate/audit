@@ -25,7 +25,6 @@ class DatabaseStorage implements StorageInterface
 
     public function send(ActivityData ...$data) : void
     {
-//        var_dump($data);
         foreach ($data as $d) {
             try {
                 $data = (function ():array {
@@ -33,7 +32,6 @@ class DatabaseStorage implements StorageInterface
                 })->call($d);
                 $data['id'] = Uuid::uuid6()->toString();
                 $data['createdAt'] = $d->getCreatedAt()->format(DATE_RFC3339);
-                var_dump($d->getChangeSet());
                 $data['changeSet'] = json_encode($d->getChangeSet());
                 $this->em->getConnection()->insert('activity', $data);
             } catch (Exception $e) {
