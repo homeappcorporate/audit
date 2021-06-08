@@ -25,6 +25,7 @@ class DatabaseStorage implements StorageInterface
 
     public function send(ActivityData ...$data) : void
     {
+//        var_dump($data);
         foreach ($data as $d) {
             try {
                 $this->em->persist(
@@ -38,7 +39,7 @@ class DatabaseStorage implements StorageInterface
                     )
                 );
             } catch (ORMException $e) {
-                throw $e;
+//                throw $e;
                 $this->logger->error(
                     'Enable to save audit log to database',
                     [

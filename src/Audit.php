@@ -8,7 +8,6 @@ class Audit
 {
     private StorageInterface $storage;
     /** @var ActivityData[] */
-    private array $data = [];
 
     public function __construct(StorageInterface $storage)
     {
@@ -17,12 +16,12 @@ class Audit
 
     public function hold(ActivityData $activity):void
     {
-        $this->data[] = $activity;
+        $this->storage->send($activity);
     }
 
     public function sendDataToPersistenceStorage():void
     {
-        $this->storage->send(...$this->data);
+//        $this->storage->send(...$this->data);
         $this->data = [];
     }
 }

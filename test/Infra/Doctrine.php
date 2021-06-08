@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Test\Infra;
 
-use Doctrine\Common\EventManager;
-use Doctrine\DBAL\DriverManager;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Tools\Setup;
 
@@ -13,13 +11,20 @@ class Doctrine
 {
     private EntityManager $entityManager;
 
+    /** @noinspection SqlResolve */
     public function __construct()
     {
         $isDevMode = true;
         $proxyDir = null;
         $cache = null;
         $useSimpleAnnotationReader = false;
-        $config = Setup::createAnnotationMetadataConfiguration(array(__DIR__."/src"), $isDevMode, $proxyDir, $cache, $useSimpleAnnotationReader);
+        $config = Setup::createAnnotationMetadataConfiguration(
+            [__DIR__ . "/src"],
+            $isDevMode,
+            $proxyDir,
+            $cache,
+            $useSimpleAnnotationReader
+        );
 
         // to make test run fast
         $conn = [
@@ -27,10 +32,13 @@ class Doctrine
             'memory' => true,
         ];
         $em = EntityManager::create($conn, $config);
-        $em->getConnection()->executeStatement("
-            CREATE TABLE SomeEntity (id STRING NOT NULL);
-            CREATE TABLE Activity (id STRING NOT NULL, entityName VARCHAR not null, entityId VARCHAR(36) not null, actorID INTEGER, createdAt DATETIME not null, ip varchar, changeSet TEXT);
-        ");
+        $em->getConnection()->executeStatement(
+            <<< MIGRATION
+        
+            CREATE TABLE "user" (id STRING NOT NULL);
+            CREATE TABLE "activity" (id INTEGER NOT NULL, entityName VARCHAR not null, entityId VARCHAR(36) not null, actorID INTEGER, createdAt DATETIME not null, ip varchar, changeSet TEXT);
+MIGRATION
+        );
         $this->entityManager = $em;
     }
 

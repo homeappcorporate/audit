@@ -11,21 +11,22 @@ class ActivityData
 {
     private string $entityName;
     private string $entityId;
+    private string $actionType;
     private ?int $actorId;
     private \DateTimeImmutable $createdAt;
-    private string $ip;
-    /** @var string[]  */
-    private array $changeSet;
+    private ?string $ip;
+    private ?array $changeSet;
 
     /**
-     * @param string[] $changeSet
+     * @psalm-param value-of<ActionTypeEnum> $actionType
      */
     public function __construct(
         string $entityName,
         string $entityId,
+        string $actionType,
         ?int $actorId,
-        string $ip,
-        array $changeSet
+        ?string $ip,
+        ?array $changeSet = []
     ) {
         $this->entityName = $entityName;
         $this->entityId = $entityId;
@@ -33,6 +34,7 @@ class ActivityData
         $this->createdAt = new \DateTimeImmutable();
         $this->ip = $ip;
         $this->changeSet = $changeSet;
+        $this->actionType = $actionType;
     }
 
     /**
@@ -81,5 +83,10 @@ class ActivityData
     public function getChangeSet() : array
     {
         return $this->changeSet;
+    }
+
+    public function getActionType() : string
+    {
+        return $this->actionType;
     }
 }

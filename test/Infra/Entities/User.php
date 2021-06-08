@@ -9,20 +9,20 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity();
  */
-class SomeEntity
+class User
 {
     /**
      * @ORM\Id()
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="integer")
      */
-    private string $id;
+    private int $id;
 
-    public function __construct(string $id)
+    public function __construct(int $id)
     {
         $this->id = $id;
     }
 
-    public function getId():string
+    public function getId() : int
     {
         return $this->id;
     }
