@@ -16,12 +16,12 @@ class ActorInfoFetcher implements ActorInfoFetcherInterface
         $this->faker = $faker;
     }
 
-    public function getId() : ?int
+    public function getId(): ?int
     {
         return $this->faker->numberBetween();
     }
 
-    public function getIp() : ?string
+    public function getIp(): ?string
     {
         return $this->faker->ipv4();
     }

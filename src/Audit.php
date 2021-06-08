@@ -13,7 +13,7 @@ class Audit
         $this->storage = $storage;
     }
 
-    public function hold(ActivityData $activity):void
+    public function hold(ActivityData $activity): void
     {
         $this->storage->send($activity);
     }

@@ -35,21 +35,21 @@ class Doctrine
         /** @noinspection SqlNoDataSourceInspection */
         $em->getConnection()->executeStatement(
             <<< MIGRATION
-CREATE TABLE "user" (
-    id STRING NOT NULL,
-    login VARCHAR NOT NULL
-);
-CREATE TABLE "activity" (
-    id INTEGER NOT NULL, 
-    entityName VARCHAR not null,
-    actionType VARCHAR not null, 
-    entityId VARCHAR(36) not null, 
-    actorID INTEGER, 
-    createdAt DATETIME not null, 
-    ip varchar, 
-    changeSet TEXT
-);
-MIGRATION
+                CREATE TABLE "user" (
+                    id STRING NOT NULL,
+                    login VARCHAR NOT NULL
+                );
+                CREATE TABLE "activity" (
+                    id INTEGER NOT NULL, 
+                    entityName VARCHAR not null,
+                    actionType VARCHAR not null, 
+                    entityId VARCHAR(36) not null, 
+                    actorID INTEGER, 
+                    createdAt DATETIME not null, 
+                    ip varchar, 
+                    changeSet TEXT
+                );
+                MIGRATION
         );
         $this->entityManager = $em;
     }
@@ -57,7 +57,7 @@ MIGRATION
     /**
      * @return EntityManager
      */
-    public function getEM() : EntityManager
+    public function getEM(): EntityManager
     {
         return $this->entityManager;
     }

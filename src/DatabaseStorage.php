@@ -23,7 +23,7 @@ class DatabaseStorage implements StorageInterface
         $this->logger = $logger;
     }
 
-    public function send(ActivityData ...$data) : void
+    public function send(ActivityData ...$data): void
     {
         foreach ($data as $d) {
             try {

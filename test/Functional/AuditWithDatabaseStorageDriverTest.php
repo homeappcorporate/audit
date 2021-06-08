@@ -31,7 +31,7 @@ final class AuditWithDatabaseStorageDriverTest extends TestCase
     private Logger $logger;
     private Faker $faker;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $doctrine = new Doctrine();
         $this->em = $doctrine->getEM();
@@ -58,7 +58,7 @@ final class AuditWithDatabaseStorageDriverTest extends TestCase
         parent::setUp();
     }
 
-    protected function tearDown() : void
+    protected function tearDown(): void
     {
         $this->em->clear();
         $this->em->close();
@@ -69,7 +69,7 @@ final class AuditWithDatabaseStorageDriverTest extends TestCase
      * @throws ORMException|MappingException
      * @test
      */
-    public function activityRecordWithCreateTypeWhenEntityFirstTimeBeenPersisted() : void
+    public function activityRecordWithCreateTypeWhenEntityFirstTimeBeenPersisted(): void
     {
         $user = $this->makeUser();
         $this->em->persist($user);
@@ -84,7 +84,7 @@ final class AuditWithDatabaseStorageDriverTest extends TestCase
         self::assertNotNull($activity);
     }
 
-    private function makeUser():User
+    private function makeUser(): User
     {
         return new User($this->faker->numberBetween(), $this->faker->e164PhoneNumber());
     }
@@ -93,7 +93,7 @@ final class AuditWithDatabaseStorageDriverTest extends TestCase
      * @throws ORMException|MappingException
      * @test
      */
-    public function activityRecordWithUpdateAfterFlushingExistedEntity() : void
+    public function activityRecordWithUpdateAfterFlushingExistedEntity(): void
     {
         $user = $this->makeUser();
         $this->em->persist($user);
@@ -120,11 +120,10 @@ final class AuditWithDatabaseStorageDriverTest extends TestCase
             [
                 'login' => [
                     $oldLogin,
-                    $newLogin
-                ]
+                    $newLogin,
+                ],
             ],
             $activity->getChangeSet()
         );
     }
-
 }

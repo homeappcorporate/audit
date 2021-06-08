@@ -16,7 +16,6 @@ use Faker\Generator;
  */
 class Faker
 {
-
     private Generator $generator;
 
     public function __construct(Generator $generator)

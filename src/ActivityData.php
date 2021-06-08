@@ -37,37 +37,37 @@ class ActivityData
         $this->changeSet = $changeSet;
     }
 
-    public function getEntityName() : string
+    public function getEntityName(): string
     {
         return $this->entityName;
     }
 
-    public function getEntityId() : string
+    public function getEntityId(): string
     {
         return $this->entityId;
     }
 
-    public function getActorId() : ?int
+    public function getActorId(): ?int
     {
         return $this->actorId;
     }
 
-    public function getCreatedAt() : \DateTimeImmutable
+    public function getCreatedAt(): \DateTimeImmutable
     {
         return $this->createdAt;
     }
 
-    public function getIp() : ?string
+    public function getIp(): ?string
     {
         return $this->ip;
     }
 
-    public function getChangeSet() : ?array
+    public function getChangeSet(): ?array
     {
         return $this->changeSet;
     }
 
-    public function getActionType() : string
+    public function getActionType(): string
     {
         return $this->actionType;
     }

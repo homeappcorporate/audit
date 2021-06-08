@@ -27,17 +27,17 @@ class UserRole
         $this->role = $role;
     }
 
-    public function getId() : int
+    public function getId(): int
     {
         return $this->id;
     }
 
-    public function getUserId() : int
+    public function getUserId(): int
     {
         return $this->userId;
     }
 
-    public function getRole() : string
+    public function getRole(): string
     {
         return $this->role;
     }

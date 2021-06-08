@@ -10,7 +10,7 @@ class ChangeSetGenerator
      * @todo add parameter
      * @noinspection PhpUnusedParameterInspection
      */
-    public function changeSet(object $entity) : array
+    public function changeSet(object $entity): array
     {
         return [
             // todo find changed data

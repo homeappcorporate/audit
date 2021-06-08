@@ -27,14 +27,14 @@ class EventListener
      * @throws MappingException
      * @psalm-suppress MixedInferredReturnType
      */
-    private function getIdentifier(object $entity, EntityManager $em):string
+    private function getIdentifier(object $entity, EntityManager $em): string
     {
         $entityClass = get_class($entity);
         $meta = $em->getClassMetadata($entityClass);
 
         $identifier = $meta->getSingleIdentifierFieldName();
         /** @psalm-suppress  MixedReturnStatement */
-        return (function (string $identifier):string {
+        return (function (string $identifier): string {
             return (string)$this->$identifier;
         })->call($entity, $identifier);
     }
@@ -42,7 +42,7 @@ class EventListener
     /**
      * @throws MappingException
      */
-    public function postPersist(LifecycleEventArgs $event) : void
+    public function postPersist(LifecycleEventArgs $event): void
     {
         $entity = $event->getEntity();
         if ($entity instanceof Activity) {
@@ -58,7 +58,7 @@ class EventListener
                 ActionTypeEnum::CREATE,
                 $this->actorIdFetcher->getId(),
                 $this->actorIdFetcher->getIp(),
-                (function ():array {
+                (function (): array {
                     return get_object_vars($this);
                 })->call($entity)
             )
@@ -68,7 +68,7 @@ class EventListener
     /**
      * @throws MappingException
      */
-    public function preUpdate(PreUpdateEventArgs $event) : void
+    public function preUpdate(PreUpdateEventArgs $event): void
     {
         $entity = $event->getEntity();
         if ($entity instanceof Activity) {

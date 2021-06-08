@@ -27,7 +27,7 @@ class User
         $this->login = $login;
     }
 
-    public function getId() : int
+    public function getId(): int
     {
         return $this->id;
     }
@@ -41,6 +41,4 @@ class User
     {
         $this->login = $login;
     }
-
-
 }

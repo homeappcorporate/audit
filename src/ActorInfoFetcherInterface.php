@@ -6,7 +6,7 @@ namespace Homeapp\AuditBundle;
 
 interface ActorInfoFetcherInterface
 {
-    public function getId() : ?int;
+    public function getId(): ?int;
 
-    public function getIp() : ?string;
+    public function getIp(): ?string;
 }

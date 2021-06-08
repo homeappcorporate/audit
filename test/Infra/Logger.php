@@ -8,7 +8,6 @@ use Psr\Log\LoggerInterface;
 
 class Logger implements LoggerInterface
 {
-
     public function emergency($message, array $context = [])
     {
         // TODO: Implement emergency() method.

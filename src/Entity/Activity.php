@@ -77,37 +77,37 @@ class Activity
      */
     private array $changeSet;
 
-    public function getId() : string
+    public function getId(): string
     {
         return $this->id;
     }
 
-    public function getEntityName() : string
+    public function getEntityName(): string
     {
         return $this->entityName;
     }
 
-    public function getEntityId() : string
+    public function getEntityId(): string
     {
         return $this->entityId;
     }
 
-    public function getActorId() : ?int
+    public function getActorId(): ?int
     {
         return $this->actorId;
     }
 
-    public function getCreatedAt() : \DateTimeImmutable
+    public function getCreatedAt(): \DateTimeImmutable
     {
         return $this->createdAt;
     }
 
-    public function getIp() : string
+    public function getIp(): string
     {
         return $this->ip;
     }
 
-    public function getChangeSet() : array
+    public function getChangeSet(): array
     {
         return $this->changeSet;
     }
