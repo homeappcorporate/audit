@@ -22,6 +22,7 @@ use Test\Infra\Stub\ActorInfoFetcher;
 
 /**
  * @covers Audit
+ * @psalm-suppress UnusedClass
  */
 final class AuditWithDatabaseStorageDriverTest extends TestCase
 {
@@ -48,10 +49,6 @@ final class AuditWithDatabaseStorageDriverTest extends TestCase
         );
         $this->em->getEventManager()->addEventListener(
             Events::postPersist,
-            $eventListener
-        );
-        $this->em->getEventManager()->addEventListener(
-            Events::preFlush,
             $eventListener
         );
         $this->em->getEventManager()->addEventListener(
@@ -113,12 +110,12 @@ final class AuditWithDatabaseStorageDriverTest extends TestCase
         $this->em->flush();
         $this->em->clear();
 
-        /** @var Activity $activity */
         $activity =
             $this->em->getRepository(Activity::class)->findOneBy([
              'entityName' => User::class,
              'actionType' => ActionTypeEnum::UPDATE,
          ]);
+        self::assertNotNull($activity);
         self::assertSame(
             [
                 'login' => [
@@ -128,7 +125,6 @@ final class AuditWithDatabaseStorageDriverTest extends TestCase
             ],
             $activity->getChangeSet()
         );
-        self::assertNotNull($activity);
     }
 
 }

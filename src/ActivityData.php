@@ -18,7 +18,7 @@ class ActivityData
     private ?array $changeSet;
 
     /**
-     * @psalm-param value-of<ActionTypeEnum> $actionType
+     * @psalm-param value-of<ActionTypeEnum::NAMES> $actionType
      */
     public function __construct(
         string $entityName,
@@ -37,50 +37,32 @@ class ActivityData
         $this->changeSet = $changeSet;
     }
 
-    /**
-     * @return string
-     */
     public function getEntityName() : string
     {
         return $this->entityName;
     }
 
-    /**
-     * @return string
-     */
     public function getEntityId() : string
     {
         return $this->entityId;
     }
 
-    /**
-     * @return int|null
-     */
     public function getActorId() : ?int
     {
         return $this->actorId;
     }
 
-    /**
-     * @return \DateTimeImmutable
-     */
     public function getCreatedAt() : \DateTimeImmutable
     {
         return $this->createdAt;
     }
 
-    /**
-     * @return string
-     */
-    public function getIp() : string
+    public function getIp() : ?string
     {
         return $this->ip;
     }
 
-    /**
-     * @return array
-     */
-    public function getChangeSet() : array
+    public function getChangeSet() : ?array
     {
         return $this->changeSet;
     }

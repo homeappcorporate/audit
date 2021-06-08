@@ -27,13 +27,16 @@ class DatabaseStorage implements StorageInterface
     {
         foreach ($data as $d) {
             try {
-                $data = (function ():array {
-                    return get_object_vars($this);
-                })->call($d);
-                $data['id'] = Uuid::uuid6()->toString();
-                $data['createdAt'] = $d->getCreatedAt()->format(DATE_RFC3339);
-                $data['changeSet'] = json_encode($d->getChangeSet());
-                $this->em->getConnection()->insert('activity', $data);
+                $this->em->getConnection()->insert('activity', [
+                    'id' => Uuid::uuid6()->toString(),
+                    'entityName' => $d->getEntityName(),
+                    'entityId' => $d->getEntityId(),
+                    'actionType' => $d->getActionType(),
+                    'actorId' => $d->getActorId(),
+                    'ip' => $d->getIp(),
+                    'createdAt' =>  $d->getCreatedAt()->format(DATE_RFC3339),
+                    'changeSet' => json_encode($d->getChangeSet()),
+                ]);
             } catch (Exception $e) {
                 $this->logger->error(
                     'Enable to save audit log to database',
