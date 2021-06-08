@@ -101,7 +101,6 @@ final class AuditWithDatabaseStorageDriverTest extends TestCase
         $user = $this->makeUser();
         $this->em->persist($user);
         $oldLogin  = $user->getLogin();
-//        dd($user, $oldLogin);
         $this->em->flush();
         $userId = $user->getId();
         $this->em->clear();
