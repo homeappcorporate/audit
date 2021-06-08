@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Homeapp\AuditBundle;
 
+use Doctrine\DBAL\Exception;
 use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\ORMException;
-use Homeapp\AuditBundle\Entity\Activity;
 use Psr\Log\LoggerInterface;
+use Ramsey\Uuid\Uuid;
 
 /**
  * @internal
@@ -28,18 +28,15 @@ class DatabaseStorage implements StorageInterface
 //        var_dump($data);
         foreach ($data as $d) {
             try {
-                $this->em->persist(
-                    new Activity(
-                        $d->getEntityName(),
-                        $d->getEntityId(),
-                        $d->getActorId(),
-                        $d->getCreatedAt(),
-                        $d->getIp(),
-                        $d->getChangeSet(),
-                    )
-                );
-            } catch (ORMException $e) {
-//                throw $e;
+                $data = (function ():array {
+                    return get_object_vars($this);
+                })->call($d);
+                $data['id'] = Uuid::uuid6()->toString();
+                $data['createdAt'] = $d->getCreatedAt()->format(DATE_RFC3339);
+                var_dump($d->getChangeSet());
+                $data['changeSet'] = json_encode($d->getChangeSet());
+                $this->em->getConnection()->insert('activity', $data);
+            } catch (Exception $e) {
                 $this->logger->error(
                     'Enable to save audit log to database',
                     [

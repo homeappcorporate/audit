@@ -32,11 +32,23 @@ class Doctrine
             'memory' => true,
         ];
         $em = EntityManager::create($conn, $config);
+        /** @noinspection SqlNoDataSourceInspection */
         $em->getConnection()->executeStatement(
             <<< MIGRATION
-        
-            CREATE TABLE "user" (id STRING NOT NULL);
-            CREATE TABLE "activity" (id INTEGER NOT NULL, entityName VARCHAR not null, entityId VARCHAR(36) not null, actorID INTEGER, createdAt DATETIME not null, ip varchar, changeSet TEXT);
+CREATE TABLE "user" (
+    id STRING NOT NULL,
+    login STRING NOT NULL
+);
+CREATE TABLE "activity" (
+    id INTEGER NOT NULL, 
+    entityName VARCHAR not null,
+    actionType VARCHAR not null, 
+    entityId VARCHAR(36) not null, 
+    actorID INTEGER, 
+    createdAt DATETIME not null, 
+    ip varchar, 
+    changeSet TEXT
+);
 MIGRATION
         );
         $this->entityManager = $em;

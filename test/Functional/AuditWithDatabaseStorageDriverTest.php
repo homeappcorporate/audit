@@ -8,8 +8,8 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Events;
 use Doctrine\ORM\ORMException;
 use Doctrine\Persistence\Mapping\MappingException;
+use Homeapp\AuditBundle\ActionTypeEnum;
 use Homeapp\AuditBundle\Audit;
-use Homeapp\AuditBundle\ChangeSetGenerator;
 use Homeapp\AuditBundle\DatabaseStorage;
 use Homeapp\AuditBundle\Entity\Activity;
 use Homeapp\AuditBundle\EventListener;
@@ -45,14 +45,17 @@ final class AuditWithDatabaseStorageDriverTest extends TestCase
         $eventListener = new EventListener(
             $this->audit,
             new ActorInfoFetcher($this->faker),
-            new ChangeSetGenerator(),
         );
         $this->em->getEventManager()->addEventListener(
-            Events::prePersist,
+            Events::postPersist,
             $eventListener
         );
         $this->em->getEventManager()->addEventListener(
             Events::preFlush,
+            $eventListener
+        );
+        $this->em->getEventManager()->addEventListener(
+            Events::preUpdate,
             $eventListener
         );
         parent::setUp();
@@ -67,17 +70,67 @@ final class AuditWithDatabaseStorageDriverTest extends TestCase
 
     /**
      * @throws ORMException|MappingException
+     * @test
      */
-    public function testPersistWhoCreatedEntity() : void
+    public function activityRecordWithCreateTypeWhenEntityFirstTimeBeenPersisted() : void
     {
-        $user = new User($this->faker->numberBetween());
+        $user = $this->makeUser();
         $this->em->persist($user);
         $this->em->flush();
         $this->em->clear();
 
-        self::assertSame(
-            1,
-            $this->em->getRepository(Activity::class)->count([])
-        );
+        $activity = $this->em->getRepository(Activity::class)->findOneBy([
+                'entityName' => User::class,
+                'entityId' => $user->getId(),
+                'actionType' => ActionTypeEnum::CREATE,
+            ]);
+        self::assertNotNull($activity);
     }
+
+    private function makeUser():User
+    {
+        return new User($this->faker->numberBetween(), $this->faker->e164PhoneNumber());
+    }
+
+    /**
+     * @throws ORMException|MappingException
+     * @test
+     */
+    public function activityRecordWithUpdateAfterFlushingExistedEntity() : void
+    {
+        $user = $this->makeUser();
+        $this->em->persist($user);
+        $oldLogin  = $user->getLogin();
+//        dd($user, $oldLogin);
+        $this->em->flush();
+        $userId = $user->getId();
+        $this->em->clear();
+        unset($user);
+
+        /** @var User $user */
+        $user = $this->em->getRepository(User::class)->findOneBy(['id' => $userId]);
+        $user->setLogin($this->faker->e164PhoneNumber());
+        $newLogin = $user->getLogin();
+        $this->em->flush();
+        $this->em->clear();
+
+        /** @var Activity $activity */
+        $activity =
+            $this->em->getRepository(Activity::class)->findOneBy([
+             'entityName' => User::class,
+             'actionType' => ActionTypeEnum::UPDATE,
+         ]);
+//        dd($user, $oldLogin, $newLogin);
+        self::assertSame(
+            [
+                'login' => [
+                    $oldLogin,
+                    $newLogin
+                ]
+            ],
+            $activity->getChangeSet()
+        );
+        self::assertNotNull($activity);
+    }
+
 }

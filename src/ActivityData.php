@@ -29,12 +29,12 @@ class ActivityData
         ?array $changeSet = []
     ) {
         $this->entityName = $entityName;
+        $this->actionType = $actionType;
         $this->entityId = $entityId;
         $this->actorId = $actorId;
         $this->createdAt = new \DateTimeImmutable();
         $this->ip = $ip;
         $this->changeSet = $changeSet;
-        $this->actionType = $actionType;
     }
 
     /**

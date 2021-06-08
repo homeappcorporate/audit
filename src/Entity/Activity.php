@@ -16,6 +16,7 @@ class Activity
 {
     public function __construct(
         string $entityName,
+        string $actionType,
         string $entityId,
         ?int $actorId,
         \DateTimeImmutable $createdAt,
@@ -24,6 +25,7 @@ class Activity
     ) {
         $this->id = Uuid::uuid6()->toString();
         $this->entityName = $entityName;
+        $this->actionType = $actionType;
         $this->entityId = $entityId;
         $this->actorId = $actorId;
         $this->createdAt = $createdAt;
@@ -42,6 +44,11 @@ class Activity
      * @ORM\Column(type="string", length=150)
      */
     private string $entityName;
+
+    /**
+     * @ORM\Column(type="string", length=20)
+     */
+    private string $actionType;
 
     /**
      * @ORM\Column(type="string", length=36)
@@ -70,59 +77,43 @@ class Activity
      */
     private array $changeSet;
 
-    /**
-     * @return string
-     */
     public function getId() : string
     {
         return $this->id;
     }
 
-    /**
-     * @return string
-     */
     public function getEntityName() : string
     {
         return $this->entityName;
     }
 
-    /**
-     * @return string
-     */
     public function getEntityId() : string
     {
         return $this->entityId;
     }
 
-    /**
-     * @return int|null
-     */
     public function getActorId() : ?int
     {
         return $this->actorId;
     }
 
-    /**
-     * @return \DateTimeImmutable
-     */
     public function getCreatedAt() : \DateTimeImmutable
     {
         return $this->createdAt;
     }
 
-    /**
-     * @return string
-     */
     public function getIp() : string
     {
         return $this->ip;
     }
 
-    /**
-     * @return array
-     */
     public function getChangeSet() : array
     {
         return $this->changeSet;
+    }
+
+    public function getActionType(): string
+    {
+        return $this->actionType;
     }
 }
