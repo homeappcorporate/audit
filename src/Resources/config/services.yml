@@ -1,0 +1,3 @@
+services:
+  Homeapp\AuditBundle\Audit:
+    public: true

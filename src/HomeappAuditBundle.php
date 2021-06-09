@@ -13,4 +13,9 @@ final class HomeappAuditBundle extends Bundle
     {
         return 'ok';
     }
+
+    protected function getContainerExtensionClass()
+    {
+        return parent::getContainerExtensionClass();
+    }
 }
