@@ -36,11 +36,16 @@ class Doctrine
         $em->getConnection()->executeStatement(
             <<< MIGRATION
                 CREATE TABLE "user" (
-                    id STRING NOT NULL,
+                    id INTEGER PRIMARY KEY NOT NULL,
                     login VARCHAR NOT NULL
                 );
+                CREATE TABLE "UserRole" (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+                    role VARCHAR NOT NULL,
+                    user_id INTEGER NOT NULL
+                );
                 CREATE TABLE "activity" (
-                    id INTEGER NOT NULL, 
+                    id VARCHAR NOT NULL, 
                     entityName VARCHAR not null,
                     actionType VARCHAR not null, 
                     entityId VARCHAR(36) not null, 

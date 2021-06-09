@@ -38,6 +38,7 @@ class DatabaseStorage implements StorageInterface
                     'changeSet' => json_encode($d->getChangeSet()),
                 ]);
             } catch (Exception $e) {
+                throw $e;
                 $this->logger->error(
                     'Enable to save audit log to database',
                     [

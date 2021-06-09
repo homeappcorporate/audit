@@ -16,6 +16,7 @@ use Homeapp\AuditBundle\EventListener;
 use PHPUnit\Framework\TestCase;
 use Test\Infra\Doctrine;
 use Test\Infra\Entities\User;
+use Test\Infra\Entities\UserRole;
 use Test\Infra\Faker;
 use Test\Infra\Logger;
 use Test\Infra\Stub\ActorInfoFetcher;
@@ -49,6 +50,10 @@ final class AuditWithDatabaseStorageDriverTest extends TestCase
         );
         $this->em->getEventManager()->addEventListener(
             Events::postPersist,
+            $eventListener
+        );
+        $this->em->getEventManager()->addEventListener(
+            Events::postFlush,
             $eventListener
         );
         $this->em->getEventManager()->addEventListener(
@@ -125,5 +130,44 @@ final class AuditWithDatabaseStorageDriverTest extends TestCase
             ],
             $activity->getChangeSet()
         );
+    }
+
+    /**
+     * @throws ORMException|MappingException
+     * @test
+     */
+    public function createUserWithARole(): void
+    {
+        $this->audit->addEntityToTrack(User::class);
+        $user = $this->makeUser();
+        $role = new UserRole($user, 'admin');
+        $this->em->persist($user);
+        $user->addRole($role);
+
+
+        $this->em->flush();
+        $userId = $user->getId();
+        $this->em->clear();
+
+        $activities = $this->em->getRepository(Activity::class)->findBy([
+//             'entityName' => User::class,
+             'actionType' => ActionTypeEnum::CREATE,
+         ]);
+        self::assertCount(1, $activities);
+        /** @var Activity $activity */
+        $activity = reset($activities);
+        self::assertSame(
+            [
+                'id' => $user->getId(),
+                'login' => $user->getLogin(),
+                'roles' => [
+                    'id' => $role->getId(),
+                    'role' => $role->getRole(),
+                ]
+            ],
+            $activity->getChangeSet()
+        );
+        dd($activity);
+
     }
 }

@@ -8,7 +8,6 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\ORM\Event\PreUpdateEventArgs;
 use Doctrine\ORM\Mapping\MappingException;
-use Homeapp\AuditBundle\Entity\Activity;
 
 class EventListener
 {
@@ -45,10 +44,10 @@ class EventListener
     public function postPersist(LifecycleEventArgs $event): void
     {
         $entity = $event->getEntity();
-        if ($entity instanceof Activity) {
+        $entityClass = get_class($entity);
+        if (!$this->audit->isTracked($entityClass)) {
             return;
         }
-        $entityClass = get_class($entity);
         $identifier = $this->getIdentifier($entity, $event->getEntityManager());
         /** @psalm-suppress MixedArgument */
         $this->audit->hold(
@@ -71,10 +70,10 @@ class EventListener
     public function preUpdate(PreUpdateEventArgs $event): void
     {
         $entity = $event->getEntity();
-        if ($entity instanceof Activity) {
+        $entityClass = get_class($entity);
+        if (!$this->audit->isTracked($entityClass)) {
             return;
         }
-        $entityClass = get_class($entity);
         $identifier = $this->getIdentifier($entity, $event->getEntityManager());
         $this->audit->hold(
             new ActivityData(
@@ -86,5 +85,10 @@ class EventListener
                 $event->getEntityChangeSet(),
             )
         );
+    }
+
+    public function postFlush()
+    {
+
     }
 }

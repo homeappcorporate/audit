@@ -1,29 +1,37 @@
-<?php
+<?php declare(strict_types=1);
 
-declare(strict_types=1);
-
-namespace Infra\Entities;
+namespace Test\Infra\Entities;
 
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity();
- * @psalm-suppress UnusedClass
+ * @ORM\Entity()
  */
 class UserRole
 {
     /**
-     * @ORM\Id()
      * @ORM\Column(type="integer")
+     * @ORM\Id()
+     * @ORM\GeneratedValue()
      */
     private int $id;
-    private int $userId;
-    private string $role;
 
-    public function __construct(int $id, int $userId, string $role)
+    /**
+     * @var User
+     * @ORM\ManyToOne(targetEntity="User")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private User $user;
+
+    /**
+     * @var string|null
+     * @ORM\Column(nullable=false)
+     */
+    private $role;
+
+    public function __construct(User $user, string $role)
     {
-        $this->id = $id;
-        $this->userId = $userId;
+        $this->user = $user;
         $this->role = $role;
     }
 
@@ -32,13 +40,28 @@ class UserRole
         return $this->id;
     }
 
-    public function getUserId(): int
+    public function setId(int $id): void
     {
-        return $this->userId;
+        $this->id = $id;
     }
 
-    public function getRole(): string
+    public function getUser(): User
+    {
+        return $this->user;
+    }
+
+    public function setUser(User $user): void
+    {
+        $this->user = $user;
+    }
+
+    public function getRole(): ?string
     {
         return $this->role;
+    }
+
+    public function setRole(?string $role): void
+    {
+        $this->role = $role;
     }
 }
