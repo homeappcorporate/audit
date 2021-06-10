@@ -10,7 +10,6 @@ use Ramsey\Uuid\Uuid;
 /**
 // * @ORM\Entity()
  * @ORM\Table(name="homeapp_audit_activity")
- * @internal
  * @psalm-immutable
  */
 class Activity
@@ -18,6 +17,7 @@ class Activity
     public function __construct(
         string $entityName,
         string $actionType,
+        string $requestId,
         string $entityId,
         ?int $actorId,
         \DateTimeImmutable $createdAt,
@@ -27,6 +27,7 @@ class Activity
         $this->id = Uuid::uuid6()->toString();
         $this->entityName = $entityName;
         $this->actionType = $actionType;
+        $this->requestId = $requestId;
         $this->entityId = $entityId;
         $this->actorId = $actorId;
         $this->createdAt = $createdAt;
@@ -39,6 +40,12 @@ class Activity
      * @ORM\Column(type="guid")
      */
     private string $id;
+
+
+    /**
+     * @ORM\Column(type="guid")
+     */
+    private string $requestId;
 
     /**
      * Hope there will be no really long entity name

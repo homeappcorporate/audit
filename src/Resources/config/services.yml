@@ -10,3 +10,4 @@ services:
     autowire: true
   Homeapp\AuditBundle\ActorInfoFetcherInterface:
   Homeapp\AuditBundle\ChangeSetInterface:
+  Homeapp\AuditBundle\RequestIdentifierInterface:

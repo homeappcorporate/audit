@@ -4,11 +4,14 @@ declare(strict_types=1);
 
 namespace Homeapp\AuditBundle;
 
+use Ramsey\Uuid\UuidInterface;
+
 /**
  * @psalm-immutable
  */
 class ActivityData
 {
+    private UuidInterface $requestId;
     private string $entityName;
     private string $entityId;
     private string $actionType;
@@ -17,13 +20,11 @@ class ActivityData
     private ?string $ip;
     private ?array $changeSet;
 
-    /**
-     * @psalm-param value-of<ActionTypeEnum::NAMES> $actionType
-     */
     public function __construct(
         string $entityName,
         string $entityId,
         string $actionType,
+        UuidInterface $requestId,
         ?int $actorId,
         ?string $ip,
         ?array $changeSet = []
@@ -35,6 +36,7 @@ class ActivityData
         $this->createdAt = new \DateTimeImmutable();
         $this->ip = $ip;
         $this->changeSet = $changeSet;
+        $this->requestId = $requestId;
     }
 
     public function getEntityName(): string
@@ -70,5 +72,10 @@ class ActivityData
     public function getActionType(): string
     {
         return $this->actionType;
+    }
+
+    public function getRequestId(): UuidInterface
+    {
+        return $this->requestId;
     }
 }

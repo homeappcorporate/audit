@@ -30,6 +30,7 @@ class DatabaseStorage implements StorageInterface
                     new Activity(
                         $d->getEntityName(),
                         $d->getActionType(),
+                        $d->getRequestId()->toString(),
                         $d->getEntityId(),
                         $d->getActorId(),
                         $d->getCreatedAt(),

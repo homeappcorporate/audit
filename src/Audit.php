@@ -16,17 +16,20 @@ class Audit
     private IdentifierExtractor $extractor;
     private ActorInfoFetcherInterface $actorInfoFetcher;
     private ChangeSetInterface $changeSet;
+    private RequestIdentifierInterface $requestIdentifier;
 
     public function __construct(
         StorageInterface $storage,
         IdentifierExtractor $extractor,
         ActorInfoFetcherInterface $actorInfoFetcher,
-        ChangeSetInterface $changeSet
+        ChangeSetInterface $changeSet,
+        RequestIdentifierInterface $requestIdentifier
     ) {
         $this->storage = $storage;
         $this->extractor = $extractor;
         $this->actorInfoFetcher = $actorInfoFetcher;
         $this->changeSet = $changeSet;
+        $this->requestIdentifier = $requestIdentifier;
     }
 
     public function hold(ActivityData $activity): void
@@ -34,6 +37,30 @@ class Audit
         $this->storage->send($activity);
     }
 
+
+    /**
+     * @throws \Doctrine\ORM\Mapping\MappingException
+     */
+    public function custom(object $entity, string $actionType):void
+    {
+        $entityClass = get_class($entity);
+        $this->hold(
+            new ActivityData(
+                $entityClass,
+                $this->extractor->getIdentifier($entity),
+                $actionType,
+                $this->requestIdentifier->getRequestId(),
+                $this->actorInfoFetcher->getId(),
+                $this->actorInfoFetcher->getIp(),
+                $this->changeSet->forCreate($entity)
+            )
+        );
+    }
+
+
+    /**
+     * @throws \Doctrine\ORM\Mapping\MappingException
+     */
     public function create(object $entity):void
     {
         $entityClass = get_class($entity);
@@ -42,6 +69,7 @@ class Audit
                 $entityClass,
                 $this->extractor->getIdentifier($entity),
                 ActionTypeEnum::CREATE,
+                $this->requestIdentifier->getRequestId(),
                 $this->actorInfoFetcher->getId(),
                 $this->actorInfoFetcher->getIp(),
                 $this->changeSet->forCreate($entity)
@@ -49,6 +77,24 @@ class Audit
         );
     }
 
+    /**
+     * @throws \Doctrine\ORM\Mapping\MappingException
+     */
+    public function update(object $entity):void
+    {
+        $entityClass = get_class($entity);
+        $this->hold(
+            new ActivityData(
+                $entityClass,
+                $this->extractor->getIdentifier($entity),
+                ActionTypeEnum::UPDATE,
+                $this->requestIdentifier->getRequestId(),
+                $this->actorInfoFetcher->getId(),
+                $this->actorInfoFetcher->getIp(),
+                $this->changeSet->forCreate($entity)
+            )
+        );
+    }
 
     /** @param class-string $entity  */
     public function addEntityToTrack(string $entity):void
