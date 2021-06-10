@@ -8,7 +8,8 @@ use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\Uuid;
 
 /**
- * @ORM\Entity()
+// * @ORM\Entity()
+ * @ORM\Table(name="homeapp_audit_activity")
  * @internal
  * @psalm-immutable
  */
@@ -20,7 +21,7 @@ class Activity
         string $entityId,
         ?int $actorId,
         \DateTimeImmutable $createdAt,
-        string $ip,
+        ?string $ip,
         array $changeSet
     ) {
         $this->id = Uuid::uuid6()->toString();
@@ -68,14 +69,14 @@ class Activity
 
     /**
      * @todo use ip format for storing
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", nullable=true)
      */
-    private string $ip;
+    private ?string $ip;
 
     /**
-     * @ORM\Column(type="json")
+     * @ORM\Column(type="json", nullable=true)
      */
-    private array $changeSet;
+    private ?array $changeSet;
 
     public function getId(): string
     {

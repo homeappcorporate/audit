@@ -1,14 +1,14 @@
 # Audit package for tracking entity changes
 
 ## To install
-
-`composer require homeapp/audit`
+1. `composer require homeapp/audit`
+2. `bin/console doctrine:migrations:diff`
+3. Отредактируйте миграцию и запустите. 
 
 ## TODO
 
 1. Write instruction
 1. Refactor migrations
-1. Remove this file [somedb.sqlite](./somedb.sqlite)
 
 # For development
 

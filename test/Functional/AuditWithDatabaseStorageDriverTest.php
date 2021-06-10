@@ -11,7 +11,6 @@ use Doctrine\Persistence\Mapping\MappingException;
 use Homeapp\AuditBundle\ActionTypeEnum;
 use Homeapp\AuditBundle\Audit;
 use Homeapp\AuditBundle\DatabaseStorage;
-use Homeapp\AuditBundle\Entity\Activity;
 use Homeapp\AuditBundle\EventListener;
 use PHPUnit\Framework\TestCase;
 use Test\Infra\Doctrine;
@@ -116,7 +115,7 @@ final class AuditWithDatabaseStorageDriverTest extends TestCase
         $this->em->clear();
 
         $activity =
-            $this->em->getRepository(Activity::class)->findOneBy([
+            $this->em->getRepository(Act::class)->findOneBy([
              'entityName' => User::class,
              'actionType' => ActionTypeEnum::UPDATE,
          ]);
@@ -149,12 +148,12 @@ final class AuditWithDatabaseStorageDriverTest extends TestCase
         $userId = $user->getId();
         $this->em->clear();
 
-        $activities = $this->em->getRepository(Activity::class)->findBy([
+        $activities = $this->em->getRepository(Act::class)->findBy([
 //             'entityName' => User::class,
              'actionType' => ActionTypeEnum::CREATE,
          ]);
         self::assertCount(1, $activities);
-        /** @var Activity $activity */
+        /** @var Act $activity */
         $activity = reset($activities);
         self::assertSame(
             [

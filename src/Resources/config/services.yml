@@ -1,3 +1,12 @@
 services:
   Homeapp\AuditBundle\Audit:
     public: true
+    autowire: true
+  Homeapp\AuditBundle\StorageInterface: '@Homeapp\AuditBundle\DatabaseStorage'
+  Homeapp\AuditBundle\DatabaseStorage:
+    public: false
+    autowire: true
+  Homeapp\AuditBundle\IdentifierExtractor:
+    autowire: true
+  Homeapp\AuditBundle\ActorInfoFetcherInterface:
+  Homeapp\AuditBundle\ChangeSetInterface:

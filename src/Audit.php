@@ -15,15 +15,18 @@ class Audit
     ];
     private IdentifierExtractor $extractor;
     private ActorInfoFetcherInterface $actorInfoFetcher;
+    private ChangeSetInterface $changeSet;
 
     public function __construct(
         StorageInterface $storage,
         IdentifierExtractor $extractor,
-        ActorInfoFetcherInterface $actorInfoFetcher
+        ActorInfoFetcherInterface $actorInfoFetcher,
+        ChangeSetInterface $changeSet
     ) {
         $this->storage = $storage;
         $this->extractor = $extractor;
         $this->actorInfoFetcher = $actorInfoFetcher;
+        $this->changeSet = $changeSet;
     }
 
     public function hold(ActivityData $activity): void
@@ -41,9 +44,7 @@ class Audit
                 ActionTypeEnum::CREATE,
                 $this->actorInfoFetcher->getId(),
                 $this->actorInfoFetcher->getIp(),
-                (function (): array {
-                    return get_object_vars($this);
-                })->call($entity)
+                $this->changeSet->forCreate($entity)
             )
         );
     }

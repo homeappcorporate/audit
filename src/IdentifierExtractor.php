@@ -3,7 +3,7 @@
 
 namespace Homeapp\AuditBundle;
 
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Mapping\MappingException;
 
 /**
@@ -11,9 +11,9 @@ use Doctrine\ORM\Mapping\MappingException;
  */
 class IdentifierExtractor
 {
-    private EntityManager $em;
+    private EntityManagerInterface $em;
 
-    public function __construct(EntityManager $em)
+    public function __construct(EntityManagerInterface $em)
     {
         $this->em = $em;
     }
