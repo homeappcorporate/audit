@@ -22,7 +22,7 @@ class Activity
         ?int $actorId,
         \DateTimeImmutable $createdAt,
         ?string $ip,
-        array $changeSet
+        ?array $changeSet
     ) {
         $this->id = Uuid::uuid6()->toString();
         $this->entityName = $entityName;
@@ -110,7 +110,7 @@ class Activity
         return $this->createdAt;
     }
 
-    public function getIp(): string
+    public function getIp(): ?string
     {
         return $this->ip;
     }
@@ -123,5 +123,10 @@ class Activity
     public function getActionType(): string
     {
         return $this->actionType;
+    }
+
+    public function getRequestId(): string
+    {
+        return $this->requestId;
     }
 }

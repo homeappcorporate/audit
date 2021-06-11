@@ -18,4 +18,9 @@ services:
   Homeapp\AuditBundle\EventListener\DatabaseActivitySubscriber:
     autowire: true
     tags:
-      - { name: 'doctrine.event_subscriber' }
+      - name: 'doctrine.event_listener'
+        event: 'postPersist'
+      - name: 'doctrine.event_listener'
+        event: 'preRemove'
+      - name: 'doctrine.event_listener'
+        event: 'preUpdate'

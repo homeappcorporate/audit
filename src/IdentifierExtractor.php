@@ -21,16 +21,17 @@ class IdentifierExtractor
     /**
      * @throws MappingException
      * @psalm-suppress MixedInferredReturnType
+     * @return string|int
      */
-    public function getIdentifier(object $entity): string
+    public function getIdentifier(object $entity)
     {
         $entityClass = get_class($entity);
         $meta = $this->em->getClassMetadata($entityClass);
 
         $identifier = $meta->getSingleIdentifierFieldName();
         /** @psalm-suppress  MixedReturnStatement */
-        return (function (string $identifier): string {
-            return (string)$this->$identifier;
+        return (function (string $identifier) {
+            return $this->$identifier;
         })->call($entity, $identifier);
     }
 }
