@@ -48,4 +48,34 @@ class DatabaseStorage implements StorageInterface
             }
         }
     }
+
+    public function insert(ActivityData $d): void
+    {
+        $meta = $this->em->getClassMetadata(Activity::class);
+        $a = new Activity(
+            $d->getEntityName(),
+            $d->getActionType(),
+            $d->getRequestId()->toString(),
+            $d->getEntityId(),
+            $d->getActorId(),
+            $d->getCreatedAt(),
+            $d->getIp(),
+            $d->getChangeSet()
+        );
+        $fileds = $meta->getFieldNames();
+        $data = [];
+        $types = [];
+        foreach ($fileds as $field) {
+            $column = $meta->getColumnName($field);
+            $meta->getTypeOfField($field);
+            $data[$column] = $meta->getFieldValue($a, $field);
+            $types[$column] = $meta->getTypeOfField($field);
+        }
+
+        $this->em->getConnection()->insert(
+            $meta->getTableName(),
+            $data,
+            $types
+        );
+    }
 }

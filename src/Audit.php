@@ -37,7 +37,6 @@ class Audit
         $this->storage->send($activity);
     }
 
-
     /**
      * @throws \Doctrine\ORM\Mapping\MappingException
      */

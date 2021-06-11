@@ -10,4 +10,9 @@ interface StorageInterface
      * Send data to persistence storage
      */
     public function send(ActivityData ...$data): void;
+
+    /**
+     * Send data to persistence storage
+     */
+    public function insert(ActivityData $d): void;
 }

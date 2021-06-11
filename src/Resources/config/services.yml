@@ -9,5 +9,13 @@ services:
   Homeapp\AuditBundle\IdentifierExtractor:
     autowire: true
   Homeapp\AuditBundle\ActorInfoFetcherInterface:
-  Homeapp\AuditBundle\ChangeSetInterface:
-  Homeapp\AuditBundle\RequestIdentifierInterface:
+  Homeapp\AuditBundle\ChangeSet:
+    autowire: true
+  Homeapp\AuditBundle\ChangeSetInterface: '@Homeapp\AuditBundle\ChangeSet'
+  Homeapp\AuditBundle\RequestIdentifierInterface: '@Homeapp\AuditBundle\RequestIdentifier'
+  Homeapp\AuditBundle\RequestIdentifier:
+  Homeapp\AuditBundle\Auditable:
+  Homeapp\AuditBundle\EventListener\DatabaseActivitySubscriber:
+    autowire: true
+    tags:
+      - { name: 'doctrine.event_subscriber' }
