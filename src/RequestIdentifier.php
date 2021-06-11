@@ -1,11 +1,15 @@
 <?php
 
+declare(strict_types=1);
 
 namespace Homeapp\AuditBundle;
 
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 
+/**
+ * @psalm-suppress UnusedClass
+ */
 class RequestIdentifier implements RequestIdentifierInterface
 {
     private ?UuidInterface $uuid = null;

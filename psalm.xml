@@ -2,7 +2,6 @@
 <psalm
     errorLevel="1"
     findUnusedVariablesAndParams="true"
-    findUnusedCode="true"
     findUnusedPsalmSuppress="true"
     checkForThrowsDocblock="true"
     forbidEcho="true"
@@ -29,11 +28,6 @@
                 <directory name="test"/>
             </errorLevel>
         </PropertyNotSetInConstructor>
-        <UnusedClass>
-            <errorLevel type="suppress">
-                <directory name="test"/>
-            </errorLevel>
-        </UnusedClass>
         <InaccessibleProperty>
             <errorLevel type="suppress">
                 <directory name="test"/>
@@ -49,11 +43,6 @@
                 <file name="test/Infra/Faker.php"/>
             </errorLevel>
         </MixedArgument>
-        <UnusedClass>
-            <errorLevel type="suppress">
-                <directory name="src"/>
-            </errorLevel>
-        </UnusedClass>
         <InternalClass>
             <errorLevel type="suppress">
                 <directory name="test"/>

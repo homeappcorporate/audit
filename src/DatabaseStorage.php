@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Homeapp\AuditBundle;
 
+use Doctrine\DBAL\Exception;
 use Doctrine\ORM\EntityManagerInterface;
 use Homeapp\AuditBundle\Entity\Activity;
 use Psr\Log\LoggerInterface;
@@ -49,6 +50,9 @@ class DatabaseStorage implements StorageInterface
         }
     }
 
+    /**
+     * @throws Exception
+     */
     public function insert(ActivityData $d): void
     {
         $meta = $this->em->getClassMetadata(Activity::class);
@@ -68,6 +72,7 @@ class DatabaseStorage implements StorageInterface
         foreach ($fileds as $field) {
             $column = $meta->getColumnName($field);
             $meta->getTypeOfField($field);
+            /** @psalm-suppress MixedAssignment */
             $data[$column] = $meta->getFieldValue($a, $field);
             $types[$column] = $meta->getTypeOfField($field);
         }

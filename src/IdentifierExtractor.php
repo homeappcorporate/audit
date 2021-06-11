@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types=1);
 
 namespace Homeapp\AuditBundle;
 
@@ -8,6 +9,8 @@ use Doctrine\ORM\Mapping\MappingException;
 
 /**
  * @internal
+ * @psalm-suppress MixedReturnStatement
+ * @psalm-suppress MissingClosureReturnType
  */
 class IdentifierExtractor
 {
@@ -29,7 +32,6 @@ class IdentifierExtractor
         $meta = $this->em->getClassMetadata($entityClass);
 
         $identifier = $meta->getSingleIdentifierFieldName();
-        /** @psalm-suppress  MixedReturnStatement */
         return (function (string $identifier) {
             return $this->$identifier;
         })->call($entity, $identifier);

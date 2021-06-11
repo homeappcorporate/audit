@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Homeapp\AuditBundle;
 
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Mapping\MappingException;
 
 class ChangeSet implements ChangeSetInterface
 {
@@ -17,6 +18,9 @@ class ChangeSet implements ChangeSetInterface
         $this->extractor = $extractor;
     }
 
+    /**
+     * @throws MappingException
+     */
     private function changeSet(object $entity): array
     {
         $class = get_class($entity);
@@ -25,17 +29,22 @@ class ChangeSet implements ChangeSetInterface
         $association = $meta->getAssociationNames();
         $data = [];
         foreach ($association as $a) {
+            /** @var object */
             $value = $meta->getFieldValue($entity, $a);
             $data[$a] = $this->extractor->getIdentifier($value);
         }
 
         foreach ($fields as $field) {
             $column = $meta->getColumnName($field);
+            /** @psalm-suppress MixedAssignment */
             $data[$column] = $meta->getFieldValue($entity, $field);
         }
         return $data;
     }
 
+    /**
+     * @throws MappingException
+     */
     public function forCreate(object $entity): array
     {
         return $this->changeSet($entity);

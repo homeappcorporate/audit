@@ -115,7 +115,7 @@ class Activity
         return $this->ip;
     }
 
-    public function getChangeSet(): array
+    public function getChangeSet(): ?array
     {
         return $this->changeSet;
     }

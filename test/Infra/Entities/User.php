@@ -23,7 +23,7 @@ class User
      */
     private string $login;
     /**
-     * @var Collection<UserRole>
+     * @var Collection<array-key, UserRole>
      * @ORM\OneToMany(targetEntity="UserRole", mappedBy="user", orphanRemoval=true, cascade={"persist"})
      */
     private Collection $roles;
@@ -55,7 +55,7 @@ class User
         return $this->roles;
     }
 
-    public function addRole(UserRole $role)
+    public function addRole(UserRole $role): void
     {
         $this->roles->add($role);
     }

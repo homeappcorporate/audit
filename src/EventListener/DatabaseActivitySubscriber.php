@@ -1,8 +1,10 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Homeapp\AuditBundle\EventListener;
 
+use Doctrine\DBAL\Exception;
 use Doctrine\ORM\Event\PreUpdateEventArgs;
 use Doctrine\ORM\Mapping\MappingException;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
@@ -15,6 +17,9 @@ use Homeapp\AuditBundle\DatabaseStorage;
 use Homeapp\AuditBundle\IdentifierExtractor;
 use Homeapp\AuditBundle\RequestIdentifierInterface;
 
+/**
+ * @psalm-suppress UnusedClass
+ */
 class DatabaseActivitySubscriber
 {
     private DatabaseStorage $storage;
@@ -42,6 +47,7 @@ class DatabaseActivitySubscriber
 
     /**
      * @throws MappingException
+     * @throws Exception
      */
     public function postPersist(LifecycleEventArgs $args): void
     {
@@ -66,6 +72,7 @@ class DatabaseActivitySubscriber
 
     /**
      * @throws MappingException
+     * @throws Exception
      */
     public function preRemove(LifecycleEventArgs $args): void
     {
@@ -90,6 +97,7 @@ class DatabaseActivitySubscriber
 
     /**
      * @throws MappingException
+     * @throws Exception
      */
     public function preUpdate(PreUpdateEventArgs $args): void
     {
