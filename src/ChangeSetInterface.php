@@ -6,5 +6,5 @@ namespace Homeapp\AuditBundle;
 
 interface ChangeSetInterface
 {
-    public function get(object $entity) : array;
+    public function get(object $entity): array;
 }

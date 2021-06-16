@@ -6,7 +6,6 @@ namespace Homeapp\AuditBundle;
 
 interface StorageInterface
 {
-
     /**
      * Send data to persistence storage
      */
