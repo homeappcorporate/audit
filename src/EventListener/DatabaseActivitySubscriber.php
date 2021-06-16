@@ -56,7 +56,7 @@ class DatabaseActivitySubscriber
             return;
         }
         $class = get_class($entity);
-        $changeSet = $this->changeSet->forCreate($entity);
+        $changeSet = $this->changeSet->get($entity);
         $this->storage->insert(
             new ActivityData(
                 $class,
@@ -81,7 +81,7 @@ class DatabaseActivitySubscriber
             return;
         }
         $class = get_class($entity);
-        $changeSet = $this->changeSet->forCreate($entity);
+        $changeSet = $this->changeSet->get($entity);
         $this->storage->insert(
             new ActivityData(
                 $class,

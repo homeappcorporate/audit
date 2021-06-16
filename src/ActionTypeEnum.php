@@ -7,14 +7,13 @@ namespace Homeapp\AuditBundle;
 class ActionTypeEnum
 {
     public const
-        CREATE = 'create',
         INSERT = 'insert',
-        DELETE = 'delete',
-        UPDATE = 'update'
-    ;
+        UPDATE = 'update',
+        DELETE = 'delete';
 
     public const NAMES = [
-        self::CREATE,
+        self::INSERT,
         self::UPDATE,
+        self::DELETE,
     ];
 }

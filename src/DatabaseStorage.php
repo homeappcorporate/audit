@@ -7,7 +7,6 @@ namespace Homeapp\AuditBundle;
 use Doctrine\DBAL\Exception;
 use Doctrine\ORM\EntityManagerInterface;
 use Homeapp\AuditBundle\Entity\Activity;
-use Psr\Log\LoggerInterface;
 
 /**
  * @internal
@@ -15,39 +14,10 @@ use Psr\Log\LoggerInterface;
 class DatabaseStorage implements StorageInterface
 {
     private EntityManagerInterface $em;
-    private LoggerInterface $logger;
 
-    public function __construct(EntityManagerInterface $em, LoggerInterface $logger)
+    public function __construct(EntityManagerInterface $em)
     {
         $this->em = $em;
-        $this->logger = $logger;
-    }
-
-    public function send(ActivityData ...$data): void
-    {
-        foreach ($data as $d) {
-            try {
-                $this->em->persist(
-                    new Activity(
-                        $d->getEntityName(),
-                        $d->getActionType(),
-                        $d->getRequestId()->toString(),
-                        $d->getEntityId(),
-                        $d->getActorId(),
-                        $d->getCreatedAt(),
-                        $d->getIp(),
-                        $d->getChangeSet(),
-                    )
-                );
-            } catch (\Exception $e) {
-                $this->logger->error(
-                    'Enable to save audit log to database',
-                    [
-                        'exception' => (string)$e,
-                    ]
-                );
-            }
-        }
     }
 
     /**
@@ -66,10 +36,10 @@ class DatabaseStorage implements StorageInterface
             $d->getIp(),
             $d->getChangeSet()
         );
-        $fileds = $meta->getFieldNames();
+        $fields = $meta->getFieldNames();
         $data = [];
         $types = [];
-        foreach ($fileds as $field) {
+        foreach ($fields as $field) {
             $column = $meta->getColumnName($field);
             $meta->getTypeOfField($field);
             /** @psalm-suppress MixedAssignment */

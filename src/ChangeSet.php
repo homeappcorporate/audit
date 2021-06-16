@@ -45,7 +45,7 @@ class ChangeSet implements ChangeSetInterface
     /**
      * @throws MappingException
      */
-    public function forCreate(object $entity): array
+    public function get(object $entity) : array
     {
         return $this->changeSet($entity);
     }
