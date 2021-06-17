@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Homeapp\AuditBundle;
 
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Mapping\MappingException;
 
@@ -26,26 +27,49 @@ class ChangeSet implements ChangeSetInterface
         $class = get_class($entity);
         $meta = $this->em->getClassMetadata($class);
         $fields = $meta->getFieldNames();
-        $association = $meta->getAssociationNames();
-        $data = [];
-        foreach ($association as $a) {
-            /** @var object */
-            $value = $meta->getFieldValue($entity, $a);
-            $data[$a] = $this->extractor->getIdentifier($value);
-        }
+        $data = $this->relation($entity);
 
         foreach ($fields as $field) {
-            $column = $meta->getColumnName($field);
+//            $column = $meta->getColumnName($field);
             /** @psalm-suppress MixedAssignment */
-            $data[$column] = $meta->getFieldValue($entity, $field);
+            $data[$field] = $meta->getFieldValue($entity, $field);
         }
+
         return $data;
     }
 
     /**
      * @throws MappingException
      */
-    public function get(object $entity): array
+    public function relation(object $entity) : array
+    {
+        $class = get_class($entity);
+        $meta = $this->em->getClassMetadata($class);
+        $associationNames = $meta->getAssociationNames();
+        $data = [];
+        foreach ($associationNames as $name) {
+            /** @var object|null */
+            $value = $meta->getFieldValue($entity, $name);
+            if ($value instanceof Collection) {
+                $data[$name] = [];
+                /** @var object $item */
+                foreach ($value as $item) {
+                    $data[$name] = $this->extractor->getIdentifier($item);
+                }
+            } else {
+                if ($value) {
+                    $data[$name] = $this->extractor->getIdentifier($value);
+                }
+            }
+        }
+
+        return $data;
+    }
+
+    /**
+     * @throws MappingException
+     */
+    public function get(object $entity) : array
     {
         return $this->changeSet($entity);
     }

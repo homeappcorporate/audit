@@ -106,6 +106,11 @@ class DatabaseActivitySubscriber
             return;
         }
         $class = get_class($entity);
+        $changeSet = $args->getEntityChangeSet();
+        $changeSet = array_merge(
+            $changeSet,
+            $this->changeSet->relation($entity),
+        );
         $this->storage->insert(
             new ActivityData(
                 $class,
@@ -114,7 +119,7 @@ class DatabaseActivitySubscriber
                 $this->requestIdentifier->getRequestId(),
                 $this->actorInfoFetcher->getId(),
                 $this->actorInfoFetcher->getIp(),
-                $args->getEntityChangeSet(),
+                $changeSet
             )
         );
     }
