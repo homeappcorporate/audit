@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Homeapp\AuditBundle;
 
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Mapping\MappingException;
+use Doctrine\ORM\PersistentCollection;
 
 class ChangeSet implements ChangeSetInterface
 {
@@ -41,24 +41,27 @@ class ChangeSet implements ChangeSetInterface
     /**
      * @throws MappingException
      */
-    public function relation(object $entity) : array
+    public function relation(object $entity): array
     {
         $class = get_class($entity);
         $meta = $this->em->getClassMetadata($class);
         $associationNames = $meta->getAssociationNames();
         $data = [];
-        foreach ($associationNames as $name) {
+        foreach ($associationNames as $associationName) {
             /** @var object|null */
-            $value = $meta->getFieldValue($entity, $name);
-            if ($value instanceof Collection) {
-                $data[$name] = [];
+            $value = $meta->getFieldValue($entity, $associationName);
+            if ($value instanceof PersistentCollection) {
+                if (!$value->isInitialized() && !$value->isDirty()) {
+                    continue;
+                }
+                $data[$associationName] = [];
                 /** @var object $item */
                 foreach ($value as $item) {
-                    $data[$name] = $this->extractor->getIdentifier($item);
+                    $data[$associationName] = $this->extractor->getIdentifier($item);
                 }
             } else {
                 if ($value) {
-                    $data[$name] = $this->extractor->getIdentifier($value);
+                    $data[$associationName] = $this->extractor->getIdentifier($value);
                 }
             }
         }
@@ -69,7 +72,7 @@ class ChangeSet implements ChangeSetInterface
     /**
      * @throws MappingException
      */
-    public function get(object $entity) : array
+    public function get(object $entity): array
     {
         return $this->changeSet($entity);
     }
