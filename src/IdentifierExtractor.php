@@ -50,8 +50,11 @@ class IdentifierExtractor
 
                 return null;
             }
-
-            return $this->$identifier;
+            $value = $this->$identifier;
+            if (is_object($value)) {
+                return $this->getIdentifier($value);
+            }
+            return $value;
         })->call($entity, $identifier, $this->logger);
     }
 }
