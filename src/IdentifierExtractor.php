@@ -38,7 +38,7 @@ class IdentifierExtractor
         $identifier = $meta->getSingleIdentifierFieldName();
 
 
-        return (function (string $identifier, LoggerInterface $logger, IdentifierExtractor $identifierExtractor)  {
+        $getIdentifier = function (string $identifier, LoggerInterface $logger, EntityManagerInterface $em, \Closure $getIdentifier)  {
             if (!property_exists($this, $identifier)) {
                 $logger->debug(
                     'Class: {class} does not have $identifier: {name}, realClass: {real}',
@@ -53,9 +53,14 @@ class IdentifierExtractor
             }
             $value = $this->$identifier;
             if (is_object($value)) {
-                return $identifierExtractor->getIdentifier($value);
+                $entityClass = get_class($value);
+                $meta = $this->em->getClassMetadata($entityClass);
+
+                $identifier = $meta->getSingleIdentifierFieldName();
+                return $getIdentifier->call($value,  $identifier, $logger, $em, $getIdentifier);
             }
             return $value;
-        })->call($entity, $identifier, $this->logger, $this);
+        };
+        $getIdentifier->call($entity, $identifier, $this->logger, $this->);
     }
 }
