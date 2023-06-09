@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\Uuid;
 
 /**
-// * @ORM\Entity()
+ * @ORM\Entity()
  * @ORM\Table(name="homeapp_audit_activity")
  * @psalm-immutable
  */
