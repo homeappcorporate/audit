@@ -35,12 +35,12 @@
         }
     ],
     "require": {
-        "symfony/http-kernel": "^5.0|^4.0",
-        "doctrine/orm": "^2.0|^3.0",
-        "ramsey/uuid": "^4.0",
-        "symfony/dependency-injection": "^5.3|^4.0",
-        "doctrine/migrations": "^2.0",
-        "symfony/config": "^5.3|^4.0",
-        "symfony/serializer": "^5.3|^4.0"
+        "symfony/http-kernel": "^5|^4",
+        "doctrine/orm": "^2|^3",
+        "ramsey/uuid": "^4",
+        "symfony/dependency-injection": "^5|^4",
+        "doctrine/migrations": "^2|^3",
+        "symfony/config": "^5|^4",
+        "symfony/serializer": "^5|^4"
     }
 }
