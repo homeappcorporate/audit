@@ -36,7 +36,7 @@
     ],
     "require": {
         "symfony/http-kernel": "^5.0|^4.0",
-        "doctrine/orm": "^2.0",
+        "doctrine/orm": "^2.0|^3.0",
         "ramsey/uuid": "^4.0",
         "symfony/dependency-injection": "^5.3|^4.0",
         "doctrine/migrations": "^2.0",
